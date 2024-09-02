@@ -19,6 +19,7 @@ namespace MVC_03.DAL.Data
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
+
         public DbSet<Department> Departments { get; set; }
     }
 }
