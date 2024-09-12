@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MVC_03.PLL.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository:IGenaricRepository<Department>
     {
-        IEnumerable<Department> GetAll();
-        Department GetById(int id);
-        int Add(Department department);
-        int Update(Department department);
-        int Delete(Department department);
+        //IEnumerable<Department> GetAll();
+        //Department GetById(int id);
+        //int Add(Department department);
+        //int Update(Department department);
+        //int Delete(Department department);
     }
 }

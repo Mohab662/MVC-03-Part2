@@ -1,0 +1,55 @@
+﻿
+@using MVC_03.DAL.Models;
+@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Employees</h1>
+<br />
+<br />
+<a asp-controller="Employee" asp-action="Create" class="btn btn-primary">Create Now</a>
+
+@if(Model.Count()>0)
+{
+   <table class="table table-hover table-striped">
+       <thead>
+           <tr>
+               <th>@Html.DisplayNameFor(D=>D.Name)</th>
+                <th>@Html.DisplayNameFor(D => D.Age)</th>
+                <th>@Html.DisplayNameFor(D => D.Address)</th>
+                <th>@Html.DisplayNameFor(D => D.Salary)</th>
+                <th>@Html.DisplayNameFor(D => D.IsActive)</th>
+                <th>@Html.DisplayNameFor(D => D.Gender)</th>
+                <th>@Html.DisplayNameFor(D => D.Email)</th>
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+           </tr>
+       </thead>
+       <tbody>
+           @foreach(var employee in Model)
+            {
+                <tr>
+                    <td>@employee.Name</td>
+                    <td>@employee.Age</td>
+                    <td>@employee.Address</td>
+                    <td>@employee.Salary</td>
+                    <td>@employee.IsActive</td>
+                    <td>@employee.Gender</td>
+                    <td>@employee.Email</td>
+                    <partial name="_ButtonsPartial" model="@employee.Id"></partial>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <div class="mt-5 alert alert-warning">
+        <h3>There Is No Employee</h3>
+    </div>
+}
+
+
