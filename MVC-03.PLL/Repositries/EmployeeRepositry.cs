@@ -10,40 +10,18 @@ using System.Threading.Tasks;
 
 namespace MVC_03.PLL.Repositries
 {
-    internal class EmployeeRepositry : IEmployeeRepositry
+    public class EmployeeRepositry :GenaricRepository<Employee>,IEmployeeRepositry
     {
-        private readonly AppDbContext dpContext; // NULL
-        public EmployeeRepositry(AppDbContext appDbContext)
+      //  private readonly AppDbContext dpContext; // NULL
+        public EmployeeRepositry(AppDbContext appDbContext):base(appDbContext)
         {
             // dpContext = new AppDbContext();
-            this.dpContext = appDbContext;
-        }
-        public int Add(Employee employee)
-        {
-            dpContext.Employees.Add(employee);
-            return dpContext.SaveChanges();
+         //   this.dpContext = appDbContext;
         }
 
-        public int Delete(Employee employee)
+        public IQueryable<Employee> GetEmployeeByAddress(string address)
         {
-            dpContext.Employees.Remove(employee);
-            return dpContext.SaveChanges();
-        }
-
-        public IEnumerable<Employee> GetAll()
-        {
-            return dpContext.Employees.AsNoTracking().ToList();
-        }
-
-        public Employee GetById(int id)
-        {
-            return dpContext.Employees.Find(id);
-        }
-
-        public int Update(Employee employee)
-        {
-            dpContext.Employees.Update(employee);
-            return dpContext.SaveChanges();
+            return dpContext.Employees.Where(E => E.Address.ToLower().Contains(address.ToLower()));
         }
     }
 }

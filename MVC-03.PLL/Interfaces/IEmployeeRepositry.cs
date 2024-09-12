@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace MVC_03.PLL.Interfaces
 {
-    public interface IEmployeeRepositry
+    public interface IEmployeeRepositry : IGenaricRepository<Employee>
     {
-        IEnumerable<Employee> GetAll();
-        Employee GetById(int id);
-        int Add(Employee employee);
-        int Update(Employee employee);
-        int Delete(Employee employee);
+        //IEnumerable<Employee> GetAll();
+        //Employee GetById(int id);
+        //int Add(Employee employee);
+        //int Update(Employee employee);
+        //int Delete(Employee employee);
+        IQueryable<Employee> GetEmployeeByAddress(string address);
     }
 }
