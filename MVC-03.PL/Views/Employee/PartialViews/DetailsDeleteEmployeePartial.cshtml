@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeViewModel
 
 <div>
     <label class="col-form-label" asp-for="Name">Name</label>
@@ -31,10 +31,6 @@
 <div>
     <label class="col-form-label" asp-for="HireDate">Hire Date</label>
     <input readonly asp-for="HireDate" class="form-control" />
-</div>
-<div>
-    <label class="col-form-label" asp-for="IsDeleted">Is Deleted?</label>
-    <input readonly asp-for="IsDeleted" class="form-control" />
 </div>
 <div>
     <label class="col-form-label" asp-for="Gender">Gender</label>

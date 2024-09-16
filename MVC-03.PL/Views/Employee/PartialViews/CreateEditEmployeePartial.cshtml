@@ -1,4 +1,9 @@
-﻿@model Employee
+﻿
+@model EmployeeViewModel
+@inject IDepartmentRepository DepartmentRepository
+@{
+    var departments = new SelectList(DepartmentRepository.GetAll()/* ViewData["Departments"] as IEnumerable<Department> */, nameof(Department.Id), nameof(Department.Name));
+}
 <div>
     <label class="col-form-label" asp-for="Name">Name</label>
     <input type="text" asp-for="Name" class="form-control" />
@@ -38,12 +43,13 @@
     <input asp-for="HireDate" class="form-control" />
 </div>
 <div>
-    <label class="col-form-label" asp-for="IsDeleted">Is Deleted?</label>
-    <input asp-for="IsDeleted" class="form-control" />
-    <span asp-validation-for="IsDeleted" class="text-danger"></span>
-</div>
-<div>
     <label class="col-form-label" asp-for="Gender">Gender</label>
     <input asp-for="Gender" class="form-control" />
     <span asp-validation-for="Gender" class="text-danger"></span>
+</div>
+<div class="form-control">
+    <label class="col-form-label" asp-for="Department"></label>
+    <select class="form-control" asp-items="@departments" asp-for="DepartmentId">
+        <option value="null">--Select Department--</option>
+    </select>
 </div>
