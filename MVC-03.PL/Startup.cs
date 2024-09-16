@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MVC_03.DAL.Data;
+using MVC_03.PL.Extentions;
+using MVC_03.PL.Helpers;
 using MVC_03.PLL.Interfaces;
 using MVC_03.PLL.Repositries;
 using System;
@@ -34,8 +36,8 @@ namespace MVC_03.PL
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEmployeeRepositry, EmployeeRepositry>();
+            services.ApplicationServices();
+            services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,5 +15,6 @@ namespace MVC_03.PLL.Interfaces
         //int Update(Employee employee);
         //int Delete(Employee employee);
         IQueryable<Employee> GetEmployeeByAddress(string address);
+        IQueryable<Employee> GetEmployeeByName(string name);
     }
 }

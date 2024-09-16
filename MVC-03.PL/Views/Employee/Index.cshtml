@@ -1,10 +1,19 @@
 ﻿
 @using MVC_03.DAL.Models;
-@model IEnumerable<Employee>
+@model IEnumerable<EmployeeViewModel>
 @{
     ViewData["Title"] = "Index";
 }
-
+<div class="row justify-content-center mt-5">
+    <form class="row col-8 offset-2" asp-action="Index">
+        <div class="col-8">
+            <input type="text" name="searchInput" class="form-control" placeholder="Search By Name" />
+        </div>
+        <div>
+            <input type="submit" value="Search" class="btn btn-success" />
+        </div>
+    </form>
+</div>
 <h1>All Employees</h1>
 <br />
 <br />
@@ -18,6 +27,7 @@
                <th>@Html.DisplayNameFor(D=>D.Name)</th>
                 <th>@Html.DisplayNameFor(D => D.Age)</th>
                 <th>@Html.DisplayNameFor(D => D.Address)</th>
+                <th>@Html.DisplayNameFor(D => D.Department)</th>
                 <th>@Html.DisplayNameFor(D => D.Salary)</th>
                 <th>@Html.DisplayNameFor(D => D.IsActive)</th>
                 <th>@Html.DisplayNameFor(D => D.Gender)</th>
@@ -34,6 +44,7 @@
                     <td>@employee.Name</td>
                     <td>@employee.Age</td>
                     <td>@employee.Address</td>
+                    <td>@employee.Department?.Name</td>
                     <td>@employee.Salary</td>
                     <td>@employee.IsActive</td>
                     <td>@employee.Gender</td>
