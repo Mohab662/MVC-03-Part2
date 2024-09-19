@@ -9,17 +9,20 @@ namespace MVC_03.PL.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepository departmentRepository;
+        private readonly IUnitOfWork unitOfWork;
+
+        // private readonly IDepartmentRepository departmentRepository;
         private readonly IWebHostEnvironment _env;
 
-        public DepartmentController(IDepartmentRepository departmentRepository,IWebHostEnvironment _env)
+        public DepartmentController(IUnitOfWork unitOfWork /*IDepartmentRepository departmentRepository*/,IWebHostEnvironment _env)
         {
-            this.departmentRepository= departmentRepository;
+            this.unitOfWork = unitOfWork;
+            //this.departmentRepository= departmentRepository;
             this._env = _env;
         }
         public IActionResult Index()
         {
-           var departments=departmentRepository.GetAll();
+           var departments=unitOfWork.DepartmentRepository.GetAll();
             return View(departments);
         }
         [HttpGet]
@@ -32,7 +35,8 @@ namespace MVC_03.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-               var count= departmentRepository.Add(department);
+               unitOfWork.DepartmentRepository.Add(department);
+                var count = unitOfWork.Complete();
                 if (count>0)
                 {
                    return RedirectToAction(nameof(Index));
@@ -48,7 +52,7 @@ namespace MVC_03.PL.Controllers
             {
                 return BadRequest();
             }
-            var department=departmentRepository.GetById(id.Value);
+            var department=unitOfWork.DepartmentRepository.GetById(id.Value);
             if (department==null)
             {
                 return NotFound();
@@ -83,7 +87,8 @@ namespace MVC_03.PL.Controllers
 
             try 
             {
-                var count = departmentRepository.Update(department);
+                 unitOfWork.DepartmentRepository.Update(department);
+                var count = unitOfWork.Complete();
                 if (count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -125,7 +130,8 @@ namespace MVC_03.PL.Controllers
         {
             try
             {
-                var count = departmentRepository.Delete(department);
+                 unitOfWork.DepartmentRepository.Delete(department);
+                var count = unitOfWork.Complete();
                     return RedirectToAction(nameof(Index));
             }
             catch (System.Exception e)

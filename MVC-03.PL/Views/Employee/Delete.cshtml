@@ -6,9 +6,10 @@
 <h1>Are Sure To Delete ??!</h1>
 <br />
 <br />
-<form asp-action="Delete"asp-route-id="@Model.Id">
+<form asp-action="Delete" asp-route-id="@Model.Id " enctype="multipart/form-data">
     <partial name="PartialViews/DetailsDeleteEmployeePartial"></partial>
-    <input type="submit" class="mt-5 btn btn-danger"></input>
+    <input type="hidden" asp-for="ImageName"/>
+    <input type="Confirm" class="mt-5 btn btn-danger"></input>
     <a asp-action="Index" class="mt-5 btn btn-primary">Cancel</a>
 </form>
 

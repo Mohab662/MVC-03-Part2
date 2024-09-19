@@ -19,16 +19,16 @@ namespace MVC_03.PLL.Repositries
             // dpContext = new AppDbContext();
             this.dpContext = appDbContext;
         }
-        public int Add(T item)
+        public void Add(T item)
         {
             dpContext.Add(item);
-            return dpContext.SaveChanges();
+           // return dpContext.SaveChanges();
         }
 
-        public int Delete(T item)
+        public void Delete(T item)
         {
             dpContext.Remove(item);
-            return dpContext.SaveChanges();
+           // return dpContext.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()
@@ -49,10 +49,10 @@ namespace MVC_03.PLL.Repositries
             return dpContext.Set<T>().Find(id);
         }
 
-        public int Update(T item)
+        public void Update(T item)
         {
             dpContext.Set<T>().Update(item);
-            return dpContext.SaveChanges();
+           // return dpContext.SaveChanges();
         }
     }
 }

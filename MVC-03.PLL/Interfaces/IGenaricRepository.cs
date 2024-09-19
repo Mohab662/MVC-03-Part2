@@ -11,8 +11,8 @@ namespace MVC_03.PLL.Interfaces
     {
         IEnumerable<T> GetAll();
         T GetById(int id);
-        int Add(T employee);
-        int Update(T employee);
-        int Delete(T employee);
+        void Add(T employee);
+        void Update(T employee);
+        void Delete(T employee);
     }
 }

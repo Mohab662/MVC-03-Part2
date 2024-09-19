@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Hosting;
 using MVC_03.DAL.Models;
+using MVC_03.PL.Helpers;
 using MVC_03.PL.ViewModels;
 using MVC_03.PLL.Interfaces;
 using System.Collections;
@@ -13,29 +14,31 @@ namespace MVC_03.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepositry EmployeeRepository;
+       // private readonly IEmployeeRepositry EmployeeRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IWebHostEnvironment _env;
-        private readonly IDepartmentRepository DepartmentRepository;
+       // private readonly IDepartmentRepository DepartmentRepository;
         private readonly IMapper Mapper;
 
-        public EmployeeController(IEmployeeRepositry EmployeeRepository, IWebHostEnvironment _env,IDepartmentRepository DepartmentRepository,IMapper Mapper)
+        public EmployeeController(IUnitOfWork unitOfWork /*IEmployeeRepositry EmployeeRepository*/, IWebHostEnvironment _env,/*IDepartmentRepository DepartmentRepository,*/IMapper Mapper)
         {
-            this.EmployeeRepository = EmployeeRepository;
+            //this.EmployeeRepository = EmployeeRepository;
+            this.unitOfWork = unitOfWork;
             this._env = _env;
-            this.DepartmentRepository = DepartmentRepository;
+           // this.DepartmentRepository = DepartmentRepository;
             this.Mapper = Mapper;
         }
         public IActionResult Index(string searchInput)
         {
             if (string.IsNullOrEmpty(searchInput))
             {
-                var employee = EmployeeRepository.GetAll();
+                var employee = unitOfWork.EmployeeRepositry.GetAll();
                 var mappedEmp = Mapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeViewModel>>(employee);
                 return View(mappedEmp);
             }
             else
             {
-                var employee = EmployeeRepository.GetEmployeeByName(searchInput);
+                var employee = unitOfWork.EmployeeRepositry.GetEmployeeByName(searchInput);
                 var mappedEmp = Mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employee);
                 return View(mappedEmp);
             }
@@ -44,16 +47,18 @@ namespace MVC_03.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewData["Departments"] = DepartmentRepository.GetAll();
+           // ViewData["Departments"] = unitOfWork.DepartmentRepository.GetAll();
             return View();
         }
         [HttpPost]
         public IActionResult Create(EmployeeViewModel employeeVM)
         {
+           employeeVM.ImageName= DocumentSettings.UploadFile(employeeVM.Image, "Images");
             var mappedEmp = Mapper.Map<EmployeeViewModel, Employee>(employeeVM);
             if (ModelState.IsValid)
             {
-               var count= EmployeeRepository.Add(mappedEmp);
+                unitOfWork.EmployeeRepositry.Add(mappedEmp);
+                var count = unitOfWork.Complete();
                 if (count>0)
                 {
                    return RedirectToAction(nameof(Index));
@@ -69,7 +74,7 @@ namespace MVC_03.PL.Controllers
             {
                 return BadRequest();
             }
-            var employee = EmployeeRepository.GetById(id.Value);
+            var employee = unitOfWork.EmployeeRepositry.GetById(id.Value);
             
             if (employee == null)
             {
@@ -106,8 +111,10 @@ namespace MVC_03.PL.Controllers
 
             try 
             {
+                employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "Images");
                 var mappedEmp = Mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                var count = EmployeeRepository.Update(mappedEmp);
+                 unitOfWork.EmployeeRepositry.Update(mappedEmp);
+                var count = unitOfWork.Complete();
                 if (count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -150,7 +157,9 @@ namespace MVC_03.PL.Controllers
             try
             {
                 var mappedEmp = Mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                var count = EmployeeRepository.Delete(mappedEmp);
+                unitOfWork.EmployeeRepositry.Delete(mappedEmp);
+                var count = unitOfWork.Complete();
+                DocumentSettings.DeleteFile(employeeVM.ImageName,"Images");
                     return RedirectToAction(nameof(Index));
             }
             catch (System.Exception e)

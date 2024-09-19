@@ -8,8 +8,9 @@ namespace MVC_03.PL.Extentions
     {
         public static void ApplicationServices(this IServiceCollection services) 
         {
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEmployeeRepositry, EmployeeRepositry>();
+            // services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            // services.AddScoped<IEmployeeRepositry, EmployeeRepositry>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
         }
     }
 }
