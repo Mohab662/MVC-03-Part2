@@ -29,5 +29,6 @@ namespace MVC_03.DAL.Models
         [InverseProperty(nameof(Models.Department.Employees))]
         public Department Department { get; set; }
         public int? DepartmentId { get; set; }
+        public string ImageName { get; set; }
     }
 }
