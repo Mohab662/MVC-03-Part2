@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MVC_03.DAL.Data;
+using MVC_03.DAL.Models;
 using MVC_03.PL.Extentions;
 using MVC_03.PL.Helpers;
 using MVC_03.PLL.Interfaces;
@@ -38,6 +40,14 @@ namespace MVC_03.PL
 
             services.ApplicationServices();
             services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            //services.AddAuthentication()
+            //        .AddCookie("Mohab", config =>
+            //        {
+            //            config.LoginPath = "/Account/SignIn";
+            //            config.AccessDeniedPath = "/Home/Error";
+            //        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

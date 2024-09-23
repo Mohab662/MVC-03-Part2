@@ -49,7 +49,7 @@
                     <td>@employee.IsActive</td>
                     <td>@employee.Gender</td>
                     <td>@employee.Email</td>
-                    <partial name="_ButtonsPartial" model="@employee.Id"></partial>
+                    <partial name="_ButtonsPartial" model="@employee.Id.ToString()"></partial>
                 </tr>
             }
         </tbody>
